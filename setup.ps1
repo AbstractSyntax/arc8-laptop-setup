@@ -8,7 +8,7 @@ $global:GitHubRepo = "REPO"
 $global:Branch = "main"
 $global:ReleaseTag = "installers"
 $global:CompanionAsset = "companion-win64.exe"
-$global:AtemAsset = "ATEM-Switchers.zip"
+$global:AtemZip = "C:\ShowLaptopPrep\ATEM-Switchers.zip"
 $global:StageTimerAsset = "Stagetimer-setup.exe"
 $global:InputDirectorAsset = "InputDirector.zip"
 
@@ -658,16 +658,6 @@ function Install-ReleaseApp {
         Start-LoggedInstaller -Name $Name -File $dest -ArgumentList "/S"
         return
     }
-    if ($Kind -eq "atem") {
-        $extract = Join-Path $global:WorkDir "atem"
-        Expand-ZipSafe -Zip $dest -Dest $extract
-        $setup = Find-SetupExe -Root $extract -Prefer "Install"
-        if (-not $setup) {
-            throw "No ATEM installer exe was found in the zip."
-        }
-        Start-LoggedInstaller -Name $Name -File $setup -ArgumentList "/q /nosplash"
-        return
-    }
     if ($Kind -eq "inputdirector") {
         $extract = Join-Path $global:WorkDir "inputdirector"
         Expand-ZipSafe -Zip $dest -Dest $extract
@@ -679,6 +669,20 @@ function Install-ReleaseApp {
         return
     }
     throw "Unknown installer kind $Kind"
+}
+
+function Install-LocalAtem {
+    if (-not (Test-Path -LiteralPath $global:AtemZip)) {
+        throw "Copy ATEM-Switchers.zip to C:\ShowLaptopPrep\ before running this script. Include the Install ATEM exe, the hidden InstallerSupport.dat, and the BlackmagicSwitchers cab files."
+    }
+    Write-Log "Using local ATEM zip $($global:AtemZip)"
+    $extract = Join-Path $global:WorkDir "atem"
+    Expand-ZipSafe -Zip $global:AtemZip -Dest $extract
+    $setup = Find-SetupExe -Root $extract -Prefer "Install"
+    if (-not $setup) {
+        throw "No ATEM installer exe was found in $($global:AtemZip)."
+    }
+    Start-LoggedInstaller -Name "ATEM Software Control" -File $setup -ArgumentList "/q /nosplash"
 }
 
 function Find-FirstPath {
@@ -894,9 +898,7 @@ Invoke-Step "Windows 11 shell" { Set-Win11Shell }
 Invoke-Step "Install Companion" {
     Install-ReleaseApp -Name "Bitfocus Companion" -Asset $global:CompanionAsset -Kind "companion"
 }
-Invoke-Step "Install ATEM" {
-    Install-ReleaseApp -Name "ATEM Software Control" -Asset $global:AtemAsset -Kind "atem"
-}
+Invoke-Step "Install ATEM" { Install-LocalAtem }
 Invoke-Step "Install Stagetimer" {
     Install-ReleaseApp -Name "Stagetimer" -Asset $global:StageTimerAsset -Kind "nsis"
 }

@@ -10,14 +10,19 @@ Add the wallpaper before the first push:
 
 `assets/wallpaper.jpg`
 
-The installers are too large to commit. GitHub blocks files over 100 MB. Create a GitHub Release tagged `installers` and attach these files with these exact names:
+The other installers are too large to commit. GitHub blocks files over 100 MB. Create a GitHub Release tagged `installers` and attach these files with these exact names:
 
 | Asset | What to upload |
 | --- | --- |
 | `companion-win64.exe` | Bitfocus Companion Windows x64 installer |
-| `ATEM-Switchers.zip` | Full Blackmagic ATEM Switchers zip, including the hidden `InstallerSupport.dat` |
 | `Stagetimer-setup.exe` | Stagetimer Windows setup exe |
 | `InputDirector.zip` | Input Director zip from the build you license |
+
+ATEM does not go on GitHub. On every laptop, before you run the script, copy the zip to this exact path:
+
+`C:\ShowLaptopPrep\ATEM-Switchers.zip`
+
+The zip needs the `Install ATEM` exe, the hidden `InstallerSupport.dat`, and the `BlackmagicSwitchers` cab files from that same folder. Copy it from the USB stick into `C:\ShowLaptopPrep\` on each machine. The script does not look on the USB drive.
 
 Input Director's public download is personal non-commercial only. Upload the licensed build you already use for company machines.
 
