@@ -1,0 +1,2 @@
+# Local installer drop. Release assets stay on the GitHub Release, not in git.
+installers/
