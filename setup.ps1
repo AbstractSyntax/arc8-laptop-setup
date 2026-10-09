@@ -3,8 +3,8 @@
 #   irm https://github.com/OWNER/REPO/raw/main/setup.ps1 | iex
 # Create a GitHub Release tagged "installers" and attach the assets named below.
 
-$global:GitHubOwner = "OWNER"
-$global:GitHubRepo = "REPO"
+$global:GitHubOwner = "AbstractSyntax"
+$global:GitHubRepo = "arc8-laptop-setup"
 $global:Branch = "main"
 $global:ReleaseTag = "installers"
 $global:CompanionAsset = "companion-win64.exe"
