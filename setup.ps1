@@ -9,7 +9,7 @@ $global:Branch = "main"
 $global:ReleaseTag = "installers"
 $global:CompanionAsset = "companion-win64.exe"
 $global:AtemAsset = "ATEM-Switchers.zip"
-$global:StageTimerAsset = "Stagetimer.msi"
+$global:StageTimerAsset = "Stagetimer-setup.exe"
 $global:InputDirectorAsset = "InputDirector.zip"
 
 $global:ScriptUrl = "https://github.com/$($global:GitHubOwner)/$($global:GitHubRepo)/raw/$($global:Branch)/setup.ps1"
@@ -654,9 +654,8 @@ function Install-ReleaseApp {
         Start-LoggedInstaller -Name $Name -File $dest -ArgumentList "/S /allusers /NORESTART"
         return
     }
-    if ($Kind -eq "msi") {
-        $msiArgs = "/i `"$dest`" /qn /norestart"
-        Start-LoggedInstaller -Name $Name -File "$env:SystemRoot\System32\msiexec.exe" -ArgumentList $msiArgs
+    if ($Kind -eq "nsis") {
+        Start-LoggedInstaller -Name $Name -File $dest -ArgumentList "/S"
         return
     }
     if ($Kind -eq "atem") {
@@ -899,7 +898,7 @@ Invoke-Step "Install ATEM" {
     Install-ReleaseApp -Name "ATEM Software Control" -Asset $global:AtemAsset -Kind "atem"
 }
 Invoke-Step "Install Stagetimer" {
-    Install-ReleaseApp -Name "Stagetimer" -Asset $global:StageTimerAsset -Kind "msi"
+    Install-ReleaseApp -Name "Stagetimer" -Asset $global:StageTimerAsset -Kind "nsis"
 }
 Invoke-Step "Install Input Director" {
     Install-ReleaseApp -Name "Input Director" -Asset $global:InputDirectorAsset -Kind "inputdirector"

@@ -16,7 +16,7 @@ The installers are too large to commit. GitHub blocks files over 100 MB. Create 
 | --- | --- |
 | `companion-win64.exe` | Bitfocus Companion Windows x64 installer |
 | `ATEM-Switchers.zip` | Full Blackmagic ATEM Switchers zip, including the hidden `InstallerSupport.dat` |
-| `Stagetimer.msi` | Stagetimer Windows MSI |
+| `Stagetimer-setup.exe` | Stagetimer Windows setup exe |
 | `InputDirector.zip` | Input Director zip from the build you license |
 
 Input Director's public download is personal non-commercial only. Upload the licensed build you already use for company machines.
